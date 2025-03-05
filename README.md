@@ -6,7 +6,7 @@ Welcome to **PyAI Hub**, your go-to destination for **Python, AI, and programmin
 - **Python Basics & Advanced Concepts**  
 - **Artificial Intelligence & Machine Learning**  
 - **Data Science & Automation**  
-- **Web Development with Python**  
+- **Web Development with Python**   
 - **GitHub, VS Code, and Developer Tools**  
 
 ## 🎯 Why PyAI Hub?  
