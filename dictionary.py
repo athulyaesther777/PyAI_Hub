@@ -10,7 +10,7 @@ person = {'name': 'Alice', 'age': 25, 'city': 'New York'}
 # Accessing values using keys
 name = person['name']  # Returns 'Alice'
 # Using get() to avoid KeyError
-age = person.get('age', 'Not found')  # Returns 25
+age = person.get('age', 'Not found')  # Returns 25 
 
 # 3. Adding and Updating Elements
 # Adding a new key-value pair
