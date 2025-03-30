@@ -1,6 +1,6 @@
 # Python Dictionaries - Comprehensive Guide
 
-# 1. Dictionary Creation and Basics
+# 1. Dictionary Creation and Basics 
 # Creating an empty dictionary
 empty_dict = {}
 # Creating a dictionary with key-value pairs
