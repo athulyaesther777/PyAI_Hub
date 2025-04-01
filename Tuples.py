@@ -13,7 +13,7 @@ print("Slicing Tuple:", fruits[0:2])
 print(fruits[:])
 
 # trying to change tuple element (will raise error)
-try:
+try: 
     fruits[1] = "orange"
 except TypeError as e:
     print("Error:", e )
