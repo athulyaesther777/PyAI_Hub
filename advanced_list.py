@@ -7,7 +7,7 @@ print("First Element:", my_list[0])   # Accessing the first element
 print("Last Element:", my_list[-1])   # Accessing the last element
 
 
-# 3. Slicing the list
+# 3. Slicing the list 
 print("Slice from index 1 to 3:", my_list[1:3])  # Slice from index 1 to 3 (exclusive)
 
 # 4. Updating an element in the list
