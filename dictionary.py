@@ -6,7 +6,7 @@ empty_dict = {}
 # Creating a dictionary with key-value pairs
 person = {'name': 'Alice', 'age': 25, 'city': 'New York'}
 
-# 2. Accessing Elements (Key Lookup)
+# 2. Accessing Elements (Key Lookup) 
 # Accessing values using keys
 name = person['name']  # Returns 'Alice'
 # Using get() to avoid KeyError
