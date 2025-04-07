@@ -10,7 +10,7 @@ ax.set_yticks([])
 ax.set_xlim(-50, 50)
 ax.set_ylim(0, 100)
 
-# List to store branches
+# List to store branches 
 branches = []
 
 # Recursive function to generate tree structure
