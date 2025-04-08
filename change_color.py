@@ -17,7 +17,7 @@ def parse_args():
 
 # Main execution
 if __name__ == "__main__":
-    args = parse_args()
+    args = parse_args() 
 
     # Create the main window
     root = tk.Tk()
