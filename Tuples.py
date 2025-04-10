@@ -6,7 +6,7 @@ print("Fruits:", fruits)
 #  Accessing the elements in Tuples (Indexing and slicing ) 
 print("First fruit:", fruits[0])
 print("Last fruit:", fruits[-1])
-print("Fruit at index 2:", fruits[2])
+print("Fruit at index 2:", fruits[2]) 
  
 # slicing
 print("Slicing Tuple:", fruits[0:2])
