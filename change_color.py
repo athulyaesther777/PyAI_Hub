@@ -6,7 +6,7 @@ import argparse
 def change_color():
     colors = ['red','blue', 'green', 'yellow','purple', 'orange']
     random_color = random.choice(colors)
-    root.config(bg=random_color) 
+    root.config(bg=random_color)  
 
 #parse command_line arg
 def parse_args():
