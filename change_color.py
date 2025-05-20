@@ -1,6 +1,6 @@
 import tkinter as tk
 import random
-import argparse
+import argparse 
 
 # Function to change the bg color randomly
 def change_color():
