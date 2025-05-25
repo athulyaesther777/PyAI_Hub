@@ -1,6 +1,6 @@
 # 1. Creating a list with mixed data types 
 my_list = [10, "Python", 3.14, True]  # List with integer, string, float, and boolean
-print("Original List:", my_list) 
+print("Original List:", my_list)  
           
 # 2. Accessing elements   using  positive and negative indexing
 print("First Element:", my_list[0])   # Accessing the first element
