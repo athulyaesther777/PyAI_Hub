@@ -1,6 +1,6 @@
  # Create a tuple
 fruits = ("apple", "banana", "cherry", "apple")
-print(fruits)       
+print(fruits)        
 print("Fruits:", fruits)          
      
 #  Accessing the elements in Tuples (Indexing and slicing )  
