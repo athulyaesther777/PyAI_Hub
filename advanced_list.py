@@ -1,4 +1,4 @@
-# 1. Creating a list with mixed data types 
+ # 1. Creating a list with mixed data types 
 my_list = [10, "Python", 3.14, True]  # List with integer, string, float, and boolean
 print("Original List:", my_list)   
             
