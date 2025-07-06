@@ -1,4 +1,4 @@
- # Create a tuple
+  # Create a tuple
 fruits = ("apple", "banana", "cherry", "apple")
 print(fruits)                    
 print("Fruits:", fruits)                       
