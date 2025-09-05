@@ -5,13 +5,6 @@ The player controls a spaceship, shoots bullets, and destroys aliens falling fro
 
 ---
 
-## Demo / Screenshot
-*Include a screenshot or GIF of your game here*  
-Example:  
-![Screenshot](assets/screenshot.png)
-
----
-
 ## Features
 - Smooth player movement (left and right arrow keys)  
 - Shoot bullets to destroy enemies (space bar)  
