@@ -4,7 +4,7 @@ import colorsys
 
 #______________set up__________________
 t.setup(width=900, height=900)   # window size
-t.bgcolor("black")               # black background
+t.bgcolor("black")               # black background 
 t.speed(0)                       # fastest drawing
 t.hideturtle()                   # hide the arrow
 t.colormode(1.0)                 # turtle expects RGB floats 0..1
