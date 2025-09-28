@@ -2,7 +2,7 @@
 fruits = ("apple", "banana", "cherry", "apple")
 print(fruits)                    
 print("Fruits:", fruits)                        
-     
+      
 #  Accessing the elements in Tuples (Indexing and slicing )  
 print("First fruit:", fruits[0]) 
 print("Last fruit:", fruits[-1]) 
@@ -72,6 +72,7 @@ print("Access orange:", nested_tuple2[1][0])
 # iterating through a tuple
 for fruits in fruits:
     print("Fruits:", fruits)
+
 
 
 
