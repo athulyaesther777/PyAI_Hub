@@ -1,4 +1,4 @@
-# Space Defender 🚀
+# Space Defender 🚀 
 
 A classic arcade-style **space shooter game** built with **Python and Pygame**.  
 The player controls a spaceship, shoots bullets, and destroys aliens falling from the top. Score points for each alien destroyed and survive as long as possible.
