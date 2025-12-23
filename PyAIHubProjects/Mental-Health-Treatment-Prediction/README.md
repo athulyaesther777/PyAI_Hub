@@ -39,7 +39,7 @@ This project aims to identify patterns that influence whether individuals seek m
 6. Model evaluation using accuracy, confusion matrix, and classification report  
 7. Feature importance analysis  
 
----
+--- 
 
 ## 📊 Model Performance
 - Achieved high prediction accuracy  
