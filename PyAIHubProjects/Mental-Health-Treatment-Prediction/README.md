@@ -46,14 +46,14 @@ This project aims to identify key factors that influence whether individuals see
 ### ✅ Confusion Matrix
 The confusion matrix below shows the model’s performance in predicting treatment decisions:
 
-![Confusion Matrix](images/confusion_matrix.png)
+![Confusion Matrix](confusion_matrix.png)
 
 ---
 
 ### 📈 Feature Importance
 The chart below highlights the most influential factors affecting mental health treatment decisions:
 
-![Feature Importance](images/feature_importance.png)
+![Feature Importance](feature_importance.png)
 
 Key influential features include:
 - Growing stress levels  
