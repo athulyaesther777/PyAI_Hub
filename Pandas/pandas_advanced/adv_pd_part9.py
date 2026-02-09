@@ -13,51 +13,64 @@ Original file is located at
 https://www.kaggle.com/datasets/rishikeshkonapure/hr-analytics-prediction�
 """
 
+import streamlit as st
 import pandas as pd
 
-df = pd.read_csv("HR_Employee_Attrition.csv", low_memory = False)
+# Page Config
+st.set_page_config(page_title="HR Analytics Dashboard", layout="wide")
+st.title("📊 HR Employee Attrition Analysis")
 
-df
+# 1. Load Data
+@st.cache_data
+def load_data():
+    # Ensure the file path matches your local environment
+    df = pd.read_csv("HR_Employee_Attrition.csv", low_memory=False)
+    
+    # Optimization & Cleaning
+    df["Department"] = df["Department"].astype("category")
+    df["JobRole"] = df["JobRole"].astype("category")
+    df["Attrition_Num"] = df["Attrition"].replace({"Yes": 1, "No": 0})
+    return df
 
-df.shape
-df.info(memory_usage="deep")
+df = load_data()
 
-df["Department"] = df["Department"].astype("category")
-df["JobRole"] = df["JobRole"].astype("category")
-df["Attrition"] = df["Attrition"].replace({"Yes": 1, "No": 0})
+# 2. Sidebar Filters
+st.sidebar.header("Filters")
+dept_filter = st.sidebar.multiselect("Select Department", 
+                                     options=df["Department"].unique(),
+                                     default=df["Department"].unique())
 
-df
+# Filter data based on sidebar
+filtered_df = df[df["Department"].isin(dept_filter)]
 
-high_risk = df.loc[
-    (df["Attrition"] == 1) &
-    (df["MonthlyIncome"] < 5000) &
-    (df["JobSatisfaction"] <= 2)
+# 3. Key Metrics (KPIs)
+col1, col2, col3 = st.columns(3)
+col1.metric("Total Employees", len(filtered_df))
+col2.metric("Avg Monthly Income", f"${filtered_df['MonthlyIncome'].mean():,.2f}")
+col3.metric("Attrition Rate", f"{filtered_df['Attrition_Num'].mean():.2%}")
+
+# 4. High Risk Analysis
+st.subheader("⚠️ High Risk Employees")
+st.write("Criteria: Attrition = Yes, Income < $5000, Job Satisfaction ≤ 2")
+
+high_risk = filtered_df[
+    (filtered_df["Attrition"] == "Yes") & 
+    (filtered_df["MonthlyIncome"] < 5000) & 
+    (filtered_df["JobSatisfaction"] <= 2)
 ]
 
-high_risk.head()
+st.dataframe(high_risk, use_container_width=True)
+st.info(f"Total High Risk Employees Found: {high_risk.shape[0]}")
 
+# 5. Department Summary Table
+st.subheader("🏢 Departmental Trends")
 summary = (
-    df.groupby("Department")
+    filtered_df.groupby("Department")
       .agg(
           avg_income=("MonthlyIncome", "mean"),
-          attrition_rate=("Attrition", "mean"),
+          attrition_rate=("Attrition_Num", "mean"),
           count=("EmployeeNumber", "count")
       )
       .sort_values("attrition_rate", ascending=False)
 )
-
-df["income_trend"] = (
-    df.groupby("Department")["MonthlyIncome"]
-      .rolling(5)
-      .mean()
-      .reset_index(level=0, drop=True)
-)
-
-df.head(10)
-
-df["LowIncomeFlag"] = (df["MonthlyIncome"] < 4000).astype(int)
-df.head()
-
-summary.head()
-high_risk.shape
-
+st.table(summary)
