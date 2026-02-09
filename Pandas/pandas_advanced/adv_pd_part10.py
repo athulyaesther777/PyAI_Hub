@@ -9,6 +9,7 @@ Original file is located at
 ## The Final Seal: **End-to-End Real-World Analysis**
 ### From Raw CSV → Actionable Business Decision
 https://www.kaggle.com/datasets/rishikeshkonapure/hr-analytics-prediction
+
 import streamlit as st
 import pandas as pd
 import os
@@ -20,12 +21,16 @@ st.title("📊 HR Employee Attrition Analysis")
 # --- DATA LOADING ---
 @st.cache_data
 def load_data():
-    # Fix: Get the current script's directory to find the CSV
-    base_path = os.path.dirname(__file__)
-    file_path = os.path.join(base_path, "HR_Employee_Attrition.csv")
+    # 1. Get the folder where THIS script is saved
+    current_dir = os.path.dirname(os.path.abspath(__file__))
     
+    # 2. Join it with the CSV filename
+    file_path = os.path.join(current_dir, "HR_Employee_Attrition.csv")
+    
+    # Check if the file exists for debugging
     if not os.path.exists(file_path):
-        st.error(f"❌ Could not find {file_path}. Please ensure the CSV is in the same folder as app.py.")
+        st.error(f"❌ File not found at: {file_path}")
+        st.info("Ensure your CSV is uploaded to the 'Pandas/pandas_advanced/' folder on GitHub.")
         return None
 
     df = pd.read_csv(file_path, low_memory=False)
@@ -41,11 +46,8 @@ df = load_data()
 if df is not None:
     # --- SIDEBAR FILTERS ---
     st.sidebar.header("Filters")
-    dept_filter = st.sidebar.multiselect(
-        "Select Department", 
-        options=df["Department"].unique().tolist(),
-        default=df["Department"].unique().tolist()
-    )
+    dept_options = df["Department"].unique().tolist()
+    dept_filter = st.sidebar.multiselect("Select Department", options=dept_options, default=dept_options)
 
     filtered_df = df[df["Department"].isin(dept_filter)]
 
@@ -57,8 +59,6 @@ if df is not None:
 
     # --- HIGH RISK ANALYSIS ---
     st.subheader("⚠️ High Risk Employees")
-    st.caption("Criteria: Attrition = Yes | Income < $5000 | Job Satisfaction ≤ 2")
-    
     high_risk = filtered_df[
         (filtered_df["Attrition"] == "Yes") & 
         (filtered_df["MonthlyIncome"] < 5000) & 
@@ -78,95 +78,3 @@ if df is not None:
           .sort_values("attrition_rate", ascending=False)
     )
     st.table(summary)
-
-1. Ingestion & Health Check
-2. Sanitization
-3. Type & Memory Optimization
-4. Feature Engineering
-5. Deep Aggregation + Exploration
-6. Validation, Visualization, Delivery & Recommendations
-
-###
-
-###Ingestion & Health Check
-"""
-
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-df = pd.read_csv("HR_Employee_Attrition.csv", low_memory = False)
-
-print("Shape:", df.shape)
-df.info(memory_usage ="deep")
-df.isna().sum().sort_values(ascending = False)
-df.nunique().sort_values(ascending = False)
-
-"""###Sanitization"""
-
-df = df.drop_duplicates() # first occurence and find and remove the extra
-
-object_col = df.select_dtypes(include = "object").columns
-
-for col in object_col:
-  df[col] = df[col].str.strip()  # "yes" or " yes"
-
-"""### TYPE AND MEMORY OPTIMIZATION"""
-
-cat_cols = ["Attrition", "BusinessTravel", "Department", "EducationField",
-            "Gender", "JobRole", "MaritalStatus", "OverTime"]
-for col in cat_cols:
-  df[col] = df[col].astype("category")
-
-"""### Feature Engineering"""
-
-df["Attritionflag"] = df["Attrition"].replace({"Yes": 1, "No": 0})
-
-df["AgeGroup"] = pd.cut(df["Age"],
-                        bins = [18, 25, 35, 45, 55, 65],
-                        labels = ["18-25", "26-35", "36- 45", "46-55", "56+"],
-                        right = False)
-df["TenureGroup"] = pd.cut(
-    df["YearsAtCompany"],
-    bins = [0, 2, 5, 10, 20, np.inf],
-    labels = ["<2y", "2-5y", "6-10y", "11-20y", "20y+"]
-
-
-)
-
-df["SatisfactionScore"] = df[["EnvironmentSatisfaction", "JobSatisfaction",
-                        "RelationshipSatisfaction"]].mean(axis=1)
-
-"""### Deep Aggregation And Exploration"""
-
-summary = (
-    df.groupby("Department", observed = True).agg(
-        EmployeeCount = ("EmployeeNumber", "count"),
-        AttritionRate = ("Attritionflag", lambda x: x.astype(float).mean()),
-        AvgIncome = ("MonthlyIncome", "mean"),
-        AvgSatisfaction = ("SatisfactionScore", "mean"),
-        PctOverTime = ("OverTime", lambda x: (x == "Yes").mean())
-
-    ).round(3)
-    ).sort_values("AttritionRate",ascending = False)
-
-display(summary)
-
-sns.barplot(data = summary.reset_index(),
-            x = "Department", y ="AttritionRate", palette = "viridis")
-plt.title("Attrition Rate by Department")
-plt.ylabel("AttritionRate")
-plt.show()
-
-"""### Validation"""
-
-print("Sniff test - Attrition rate two ways:")
-print("Mean of flag: ", df["Attritionflag"].astype(float).mean().round(4))
-print("Value counts: ", df["Attrition"].value_counts(normalize = True).round(4))
-
-df.to_csv("cleaned_hr_attrition.csv", index = False)
-summary.to_csv("attrition_summary_by_dept")
-
-df
-
