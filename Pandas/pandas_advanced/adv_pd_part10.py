@@ -9,6 +9,75 @@ Original file is located at
 ## The Final Seal: **End-to-End Real-World Analysis**
 ### From Raw CSV → Actionable Business Decision
 https://www.kaggle.com/datasets/rishikeshkonapure/hr-analytics-prediction
+import streamlit as st
+import pandas as pd
+import os
+
+# --- PAGE SETUP ---
+st.set_page_config(page_title="HR Analytics Dashboard", layout="wide")
+st.title("📊 HR Employee Attrition Analysis")
+
+# --- DATA LOADING ---
+@st.cache_data
+def load_data():
+    # Fix: Get the current script's directory to find the CSV
+    base_path = os.path.dirname(__file__)
+    file_path = os.path.join(base_path, "HR_Employee_Attrition.csv")
+    
+    if not os.path.exists(file_path):
+        st.error(f"❌ Could not find {file_path}. Please ensure the CSV is in the same folder as app.py.")
+        return None
+
+    df = pd.read_csv(file_path, low_memory=False)
+    
+    # Preprocessing
+    df["Department"] = df["Department"].astype("category")
+    df["JobRole"] = df["JobRole"].astype("category")
+    df["Attrition_Num"] = df["Attrition"].replace({"Yes": 1, "No": 0})
+    return df
+
+df = load_data()
+
+if df is not None:
+    # --- SIDEBAR FILTERS ---
+    st.sidebar.header("Filters")
+    dept_filter = st.sidebar.multiselect(
+        "Select Department", 
+        options=df["Department"].unique().tolist(),
+        default=df["Department"].unique().tolist()
+    )
+
+    filtered_df = df[df["Department"].isin(dept_filter)]
+
+    # --- KPI METRICS ---
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Total Employees", len(filtered_df))
+    col2.metric("Avg Monthly Income", f"${filtered_df['MonthlyIncome'].mean():,.2f}")
+    col3.metric("Attrition Rate", f"{filtered_df['Attrition_Num'].mean():.2%}")
+
+    # --- HIGH RISK ANALYSIS ---
+    st.subheader("⚠️ High Risk Employees")
+    st.caption("Criteria: Attrition = Yes | Income < $5000 | Job Satisfaction ≤ 2")
+    
+    high_risk = filtered_df[
+        (filtered_df["Attrition"] == "Yes") & 
+        (filtered_df["MonthlyIncome"] < 5000) & 
+        (filtered_df["JobSatisfaction"] <= 2)
+    ]
+    st.dataframe(high_risk, use_container_width=True)
+
+    # --- DEPARTMENT SUMMARY ---
+    st.subheader("🏢 Departmental Trends")
+    summary = (
+        filtered_df.groupby("Department")
+          .agg(
+              avg_income=("MonthlyIncome", "mean"),
+              attrition_rate=("Attrition_Num", "mean"),
+              count=("EmployeeNumber", "count")
+          )
+          .sort_values("attrition_rate", ascending=False)
+    )
+    st.table(summary)
 
 1. Ingestion & Health Check
 2. Sanitization
