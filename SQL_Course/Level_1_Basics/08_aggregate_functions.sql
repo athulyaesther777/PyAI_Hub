@@ -1,0 +1,72 @@
+PS C:\Users\athul> cd D:\temporary_datasets\VScode\SQL\SQL_Basics
+PS D:\temporary_datasets\VScode\SQL\SQL_Basics> duckdb pyaihub_analytics.db
+DuckDB v1.4.4 (Andium) 6ddac802ff
+Enter ".help" for usage hints.
+D SELECT * FROM students;
+┌────────────┬─────────┬───────┬───────────┐
+│ student_id │  name   │  age  │   city    │
+│   int32    │ varchar │ int32 │  varchar  │
+├────────────┼─────────┼───────┼───────────┤
+│          1 │ Arun    │    21 │ Chennai   │
+│          2 │ Meera   │    22 │ Mumbai    │
+│          3 │ Rahul   │    23 │ Delhi     │
+│          4 │ Ananya  │    20 │ Bangalore │
+└────────────┴─────────┴───────┴───────────┘
+D SELECT COUNT(*) FROM students;
+┌──────────────┐
+│ count_star() │
+│    int64     │
+├──────────────┤
+│      4       │
+└──────────────┘
+D SELECT COUNT(age) FROM students;
+┌────────────┐
+│ count(age) │
+│   int64    │
+├────────────┤
+│     4      │
+└────────────┘
+D SELECT SUM(age) FROM students;
+┌──────────┐
+│ sum(age) │
+│  int128  │
+├──────────┤
+│    86    │
+└──────────┘
+D SELECT AVG(age)  FROM students;
+┌──────────┐
+│ avg(age) │
+│  double  │
+├──────────┤
+│   21.5   │
+└──────────┘
+                             ^
+D SELECT MIN(age) FROM students;
+┌──────────┐
+│ min(age) │
+│  int32   │
+├──────────┤
+│    20    │
+└──────────┘
+D SELECT MAX(age) FROM students;
+┌──────────┐
+│ max(age) │
+│  int32   │
+├──────────┤
+│    23    │
+└──────────┘
+D SELECT AVG(age) FROM students WHERE city = 'Mumbai';
+┌──────────┐
+│ avg(age) │
+│  double  │
+├──────────┤
+│   22.0   │
+└──────────┘
+D SELECT AVG(age) AS average_age FROM students;
+┌─────────────┐
+│ average_age │
+│   double    │
+├─────────────┤
+│    21.5     │
+└─────────────┘
+D
