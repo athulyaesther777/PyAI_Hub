@@ -1,0 +1,92 @@
+PS C:\Users\athul> cd D:\temporary_datasets\VScode\SQL\SQL_Basics
+PS D:\temporary_datasets\VScode\SQL\SQL_Basics> duckdb pyaihub_analytics.db
+DuckDB v1.4.4 (Andium) 6ddac802ff
+Enter ".help" for usage hints.
+D SELECT * FROM students;
+┌────────────┬─────────┬───────┬───────────┐
+│ student_id │  name   │  age  │   city    │
+│   int32    │ varchar │ int32 │  varchar  │
+├────────────┼─────────┼───────┼───────────┤
+│          1 │ Arun    │    21 │ Chennai   │
+│          2 │ Meera   │    22 │ Mumbai    │
+│          3 │ Rahul   │    23 │ Delhi     │
+│          4 │ Ananya  │    20 │ Bangalore │
+│         12 │ Kiran   │    21 │ Chennai   │
+│         13 │ Deepa   │    21 │ Chennai   │
+│         14 │ Arav    │    22 │ Mumbai    │
+│         15 │ Sneha   │    22 │ Mumbai    │
+│         16 │ Karen   │    21 │ Chennai   │
+│         17 │ Deepak  │    25 │ Chennai   │
+├────────────┴─────────┴───────┴───────────┤
+│ 10 rows                        4 columns │
+└──────────────────────────────────────────┘
+D INSERT INTO students VALUES (21, 'Ravi', NULL, 'Delhi'), (22, 'Sara', 21, NULL), (23, 'John', NULL, NULL);
+D SELECT * FROM students;
+┌────────────┬─────────┬───────┬───────────┐
+│ student_id │  name   │  age  │   city    │
+│   int32    │ varchar │ int32 │  varchar  │
+├────────────┼─────────┼───────┼───────────┤
+│          1 │ Arun    │    21 │ Chennai   │
+│          2 │ Meera   │    22 │ Mumbai    │
+│          3 │ Rahul   │    23 │ Delhi     │
+│          4 │ Ananya  │    20 │ Bangalore │
+│         12 │ Kiran   │    21 │ Chennai   │
+│         13 │ Deepa   │    21 │ Chennai   │
+│         14 │ Arav    │    22 │ Mumbai    │
+│         15 │ Sneha   │    22 │ Mumbai    │
+│         16 │ Karen   │    21 │ Chennai   │
+│         17 │ Deepak  │    25 │ Chennai   │
+│         21 │ Ravi    │  NULL │ Delhi     │
+│         22 │ Sara    │    21 │ NULL      │
+│         23 │ John    │  NULL │ NULL      │
+├────────────┴─────────┴───────┴───────────┤
+│ 13 rows                        4 columns │
+└──────────────────────────────────────────┘
+D SELECT * FROM students age = NULL;
+Parser Error:
+syntax error at or near "="
+
+LINE 1: SELECT * FROM students age = NULL;
+                                   ^
+D SELECT * FROM students age IS NULL;
+Parser Error:
+syntax error at or near "IS"
+
+LINE 1: SELECT * FROM students age IS NULL;
+                                   ^
+D SELECT * FROM students WHERE age IS NULL;
+┌────────────┬─────────┬───────┬─────────┐
+│ student_id │  name   │  age  │  city   │
+│   int32    │ varchar │ int32 │ varchar │
+├────────────┼─────────┼───────┼─────────┤
+│         21 │ Ravi    │  NULL │ Delhi   │
+│         23 │ John    │  NULL │ NULL    │
+└────────────┴─────────┴───────┴─────────┘
+D SELECT * FROM students WHERE age IS NOT NULL;
+┌────────────┬─────────┬───────┬───────────┐
+│ student_id │  name   │  age  │   city    │
+│   int32    │ varchar │ int32 │  varchar  │
+├────────────┼─────────┼───────┼───────────┤
+│          1 │ Arun    │    21 │ Chennai   │
+│          2 │ Meera   │    22 │ Mumbai    │
+│          3 │ Rahul   │    23 │ Delhi     │
+│          4 │ Ananya  │    20 │ Bangalore │
+│         12 │ Kiran   │    21 │ Chennai   │
+│         13 │ Deepa   │    21 │ Chennai   │
+│         14 │ Arav    │    22 │ Mumbai    │
+│         15 │ Sneha   │    22 │ Mumbai    │
+│         16 │ Karen   │    21 │ Chennai   │
+│         17 │ Deepak  │    25 │ Chennai   │
+│         22 │ Sara    │    21 │ NULL      │
+├────────────┴─────────┴───────┴───────────┤
+│ 11 rows                        4 columns │
+└──────────────────────────────────────────┘
+D SELECT * FROM students WHERE city IS NULL;
+┌────────────┬─────────┬───────┬─────────┐
+│ student_id │  name   │  age  │  city   │
+│   int32    │ varchar │ int32 │ varchar │
+├────────────┼─────────┼───────┼─────────┤
+│         22 │ Sara    │    21 │ NULL    │
+│         23 │ John    │  NULL │ NULL    │
+└────────────┴─────────┴───────┴─────────┘
+D
