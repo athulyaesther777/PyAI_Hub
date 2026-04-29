@@ -189,3 +189,9 @@ FROM hr_data;
 COPY final_attrition_dataset
 TO 'final_attrition_dataset.csv'
 (WITH HEADER, DELIMITER ',');
+
+
+D CREATE TABLE hr_data AS SELECT * FROM read_csv_auto('HR_Employee_Attrition.csv');
+D DROP TABLE IF EXISTS final_attrition_dataset; CREATE TABLE final_attrition_dataset AS SELECT * FROM hr_data;
+D COPY (SELECT * FROM final_attrition_dataset) TO 'final_attrition_dataset.csv' (HEADER, DELIMITER ',');
+
